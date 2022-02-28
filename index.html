@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="style.css">
     <title>Notes App</title>
 </head>
@@ -25,7 +26,22 @@
             </form>
         </div>
 
-        <div id="notes"></div>
+        <div id="notes">
+            <div class="note">
+                <div class="note-title">
+                    Movie
+                </div>
+                <div class="note-text">
+                    The Batman
+                </div>
+                <div class="toolbar-container">
+                    <div class="toolbar">
+                        <i class="fa-solid fa-palette toolbar-color"></i>
+                        <i class="fa-solid fa-trash toolbar-delete"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div id="info">
             <p id="info-text">Notes you add appear here</p>
