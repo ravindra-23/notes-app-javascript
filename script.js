@@ -7,6 +7,11 @@ class App {
         this.noteText = document.querySelector('#note-text');
         this.formButtons = document.querySelector('#form-buttons');
         this.$notes = document.querySelector('#notes');
+        this.formCloseButton = document.querySelector('#form-close-button');
+        this.modal = document.querySelector(".modal");
+        this.modalTitle = document.querySelector(".modal-title");
+        this.modalText = document.querySelector(".modal-text");
+        this.modalCloseButton = document.querySelector(".modal-close-button");
 
         this.addEventListeners()
     }
@@ -15,6 +20,8 @@ class App {
         document.body.addEventListener('click', event => {
             this.handleFormClick(event);
             this.deleteNote(event);
+            this.selectNote(event);
+            this.openModal(event);
         })
 
         this.form.addEventListener('submit', event => {
@@ -25,14 +32,32 @@ class App {
             if(hasNotes) {
                 this.addNote({ title, text })
             }
+
+            this.noteTitle.value = ''
+            this.noteText.value = ''
             console.log(this.notes)
+        })
+
+        this.formCloseButton.addEventListener('click', event => {
+            event.stopPropagation();
+            this.closeForm();
         })
     }
 
     handleFormClick(event) {
         const isFormClicked = this.form.contains(event.target)
         console.log(isFormClicked)
-        isFormClicked ? this.openForm() : this.closeForm()
+        const title = this.noteTitle.value;
+        const text = this.noteText.value;
+        const hasNotes = title || text
+
+        if(isFormClicked) {
+            this.openForm()
+        } else if(hasNotes) {
+            this.addNote({ title, text })
+        } else {
+            this.closeForm()
+        }
     }
 
     openForm() {
@@ -47,6 +72,15 @@ class App {
         this.formButtons.style.display = 'none';
         this.noteTitle.value = '';
         this.noteText.value = '';
+    }
+
+    openModal(event) {
+        if(event.target.matches('.toolbar-delete')) return
+        if(event.target.closest('.note')) {
+            this.modal.classList.toggle('open-modal')
+            this.modalTitle.value = this.title;
+            this.modalText.value = this.text;
+        }
     }
 
     addNote({ title, text }) {
@@ -67,6 +101,15 @@ class App {
         console.log(id)
         this.notes = this.notes.filter(note => note.id !== Number(id));
         this.render();
+    }
+
+    selectNote(event) {
+        const selectedNote = event.target.closest('.note')
+        if(!selectedNote) return
+        const [noteTitle, noteText] = selectedNote.children;
+        this.title = noteTitle.innerText;
+        this.text = noteText.innerText;
+        this.id = selectedNote.dataset.id;
     }
 
     render() {
