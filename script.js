@@ -8,10 +8,11 @@ class App {
         this.formButtons = document.querySelector('#form-buttons');
         this.$notes = document.querySelector('#notes');
         this.formCloseButton = document.querySelector('#form-close-button');
-        this.modal = document.querySelector(".modal");
-        this.modalTitle = document.querySelector(".modal-title");
-        this.modalText = document.querySelector(".modal-text");
-        this.modalCloseButton = document.querySelector(".modal-close-button");
+        this.modal = document.querySelector('.modal');
+        this.modalTitle = document.querySelector('.modal-title');
+        this.modalText = document.querySelector('.modal-text');
+        this.modalCloseButton = document.querySelector('.modal-close-button');
+        this.colorToolTip = document.querySelector('#color-tooltip');
 
         this.addEventListeners()
     }
@@ -46,6 +47,18 @@ class App {
         this.modalCloseButton.addEventListener('click', event => {
             this.closeModal(event);
         })
+
+        document.body.addEventListener('mouseover', event => {
+            this.openToolTip(event);
+        })
+
+        document.body.addEventListener('mouseout', event => {
+            this.closeToolTip(event);
+        })
+
+        this.colorToolTip.addEventListener('mouseover', () => this.style.display = 'flex')
+
+        this.colorToolTip.addEventListener('mouseout', () => this.style.display = 'none')
     }
 
     handleFormClick(event) {
@@ -128,6 +141,21 @@ class App {
         this.id = selectedNote.dataset.id;
     }
 
+    openToolTip(event) {
+        if(!event.target.matches('.toolbar-color')) return
+        this.id = event.target.nextElementSibling.dataset.id;
+        const noteCoords = event.target.getBoundingClientRect();
+        const horizontal = noteCoords.left;
+        const vertical = window.scrollY - 145;
+        this.colorToolTip.style.transform = `translate(${horizontal}px, ${vertical}px)`;
+        this.colorToolTip.style.display = "flex";
+    }
+
+    closeToolTip(event) {
+        if (!event.target.matches(".toolbar-color")) return;
+        this.colorToolTip.style.display = "none";
+    }
+
     render() {
         this.displayNotes()
     }
@@ -144,8 +172,8 @@ class App {
             </div>
             <div class="toolbar-container">
                 <div class="toolbar">
-                    <i class="fa-solid fa-trash toolbar-delete" data-id=${note.id}></i>
                     <i class="fa-solid fa-palette toolbar-color" data-id=${note.id}></i>
+                    <i class="fa-solid fa-trash toolbar-delete" data-id=${note.id}></i>
                 </div>
             </div>
         </div>
