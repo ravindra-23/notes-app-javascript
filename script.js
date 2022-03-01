@@ -42,6 +42,10 @@ class App {
             event.stopPropagation();
             this.closeForm();
         })
+
+        this.modalCloseButton.addEventListener('click', event => {
+            this.closeModal(event);
+        })
     }
 
     handleFormClick(event) {
@@ -83,6 +87,11 @@ class App {
         }
     }
 
+    closeModal(event) {
+        this.editNote();
+        this.modal.classList.toggle('open-modal');
+    }
+
     addNote({ title, text }) {
         const newNote = {
             id: this.notes.length > 0 ? this.notes.length + 1 : 1,
@@ -91,6 +100,13 @@ class App {
             color: 'white'
         }
         this.notes = [...this.notes, newNote]
+        this.render();
+    }
+
+    editNote() {
+        const title = this.modalTitle.value;
+        const text = this.modalText.value;
+        this.notes = this.notes.map(note => note.id === Number(this.id) ? {...note, title, text} : note);
         this.render();
     }
 
