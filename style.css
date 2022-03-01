@@ -208,7 +208,7 @@ input:focus {
 }
 
 .toolbar {
-    opacity: 1;
+    opacity: 0;
     flex-direction: row-reverse;
     align-items: center;
     color: rgba(0, 0, 0, 0.54);
@@ -218,6 +218,10 @@ input:focus {
     margin: 4px 0;
     position: relative;
     transition: all 0.2s ease-in-out;
+}
+
+.toolbar:hover {
+    opacity: 1;
 }
 
 .toolbar-color,
@@ -322,4 +326,50 @@ input:focus {
     visibility: visible;
     transform: scale(1);
     transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+}
+
+/* Color Tooltip */
+
+#color-tooltip {
+    border-bottom: 2px solid #fff;
+    position: absolute;
+    top: -40;
+    background: #fff;
+    border: 1px solid black;
+    left: 0;
+    z-index: 20;
+    border-radius: 5px;
+    display: none;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    padding: 5px 7px 3px;
+    width: 136px;
+    height: 40px;
+    justify-content: space-between;
+}
+
+.color-option {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 1px solid #dedede;
+}
+  
+.color-option:hover {
+    border: 1px solid black;
+}
+
+#white {
+    background: white;
+}
+  
+#purple {
+    background: #d7aefb;
+}
+  
+#orange {
+    background: #fbbc04;
+}
+  
+#teal {
+    background: #a7ffeb;
 }
