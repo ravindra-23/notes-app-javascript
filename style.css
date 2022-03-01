@@ -88,6 +88,10 @@ input:focus {
     text-align: right;
 }
 
+.form-open {
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+
 #submit-button,
 #form-close-button {
   font-family: 'Roboto', sans-serif;
