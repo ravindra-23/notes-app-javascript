@@ -1,6 +1,6 @@
 class App {
     constructor() {
-        this.notes = [];
+        this.notes = JSON.parse(localStorage.getItem('notes')) || [];
         this.title = "";
         this.text = "";
         this.id = "";
@@ -18,7 +18,8 @@ class App {
         this.colorToolTip = document.querySelector('#color-tooltip');
         this.info = document.querySelector('#info');
 
-        this.addEventListeners()
+        this.render();
+        this.addEventListeners();
     }
 
     addEventListeners() {
@@ -130,6 +131,7 @@ class App {
         }
         this.notes = [...this.notes, newNote]
         this.render();
+        this.closeForm();
     }
 
     editNote() {
@@ -167,7 +169,7 @@ class App {
         this.id = event.target.nextElementSibling.dataset.id;
         const noteCoords = event.target.getBoundingClientRect();
         const horizontal = noteCoords.left;
-        const vertical = window.scrollY - 20;
+        const vertical = window.scrollY - 22;
         this.colorToolTip.style.transform = `translate(${horizontal}px, ${vertical}px)`;
         this.colorToolTip.style.display = "flex";
     }
@@ -178,7 +180,12 @@ class App {
     }
 
     render() {
-        this.displayNotes()
+        this.saveNotes();
+        this.displayNotes();
+    }
+
+    saveNotes() {
+        localStorage.setItem('notes', JSON.stringify(this.notes))
     }
 
     displayNotes() {
