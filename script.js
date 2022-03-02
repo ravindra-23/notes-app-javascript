@@ -1,6 +1,9 @@
 class App {
     constructor() {
         this.notes = [];
+        this.title = "";
+        this.text = "";
+        this.id = "";
 
         this.form = document.querySelector('#form');
         this.noteTitle = document.querySelector('#note-title');
@@ -13,6 +16,7 @@ class App {
         this.modalText = document.querySelector('.modal-text');
         this.modalCloseButton = document.querySelector('.modal-close-button');
         this.colorToolTip = document.querySelector('#color-tooltip');
+        this.info = document.querySelector('#info');
 
         this.addEventListeners()
     }
@@ -56,9 +60,20 @@ class App {
             this.closeToolTip(event);
         })
 
-        this.colorToolTip.addEventListener('mouseover', () => this.style.display = 'flex')
+        this.colorToolTip.addEventListener('mouseover', function() {
+            this.style.display = "flex";
+        })
 
-        this.colorToolTip.addEventListener('mouseout', () => this.style.display = 'none')
+        this.colorToolTip.addEventListener('mouseout', function() {
+            this.style.display = "none";
+        })
+
+        this.colorToolTip.addEventListener('click', event => {
+            const color = event.target.dataset.color;
+            if(color) {
+                this.editNoteColor(color)
+            }
+        });
     }
 
     handleFormClick(event) {
@@ -93,6 +108,7 @@ class App {
 
     openModal(event) {
         if(event.target.matches('.toolbar-delete')) return
+        if(event.target.matches('.toolbar-color')) return
         if(event.target.closest('.note')) {
             this.modal.classList.toggle('open-modal')
             this.modalTitle.value = this.title;
@@ -123,6 +139,11 @@ class App {
         this.render();
     }
 
+    editNoteColor(color) {
+        this.notes = this.notes.map(note => note.id === Number(this.id) ? {...note, color} : note)
+        this.render();
+    }
+
     deleteNote(event) {
         event.stopPropagation();
         if(!event.target.matches('.toolbar-delete')) return
@@ -146,7 +167,7 @@ class App {
         this.id = event.target.nextElementSibling.dataset.id;
         const noteCoords = event.target.getBoundingClientRect();
         const horizontal = noteCoords.left;
-        const vertical = window.scrollY - 145;
+        const vertical = window.scrollY - 20;
         this.colorToolTip.style.transform = `translate(${horizontal}px, ${vertical}px)`;
         this.colorToolTip.style.display = "flex";
     }
@@ -161,10 +182,12 @@ class App {
     }
 
     displayNotes() {
-
+        const hasNotes = this.notes.length > 0
+        this.info.style.display = hasNotes ? 'none' : 'flex';
+        
         this.$notes.innerHTML = this.notes.map(note => `
         <div class="note" style="background: ${note.color}" data-id="${note.id}">
-            <div class="${note.title && "note-title"}">
+            <div class="${note.title} && note-title">
                 ${note.title}
             </div>
             <div class="note-text">
@@ -172,8 +195,8 @@ class App {
             </div>
             <div class="toolbar-container">
                 <div class="toolbar">
-                    <i class="fa-solid fa-palette toolbar-color" data-id=${note.id}></i>
-                    <i class="fa-solid fa-trash toolbar-delete" data-id=${note.id}></i>
+                    <img src="./assets/palette.png" data-id=${note.id} class="toolbar-color">
+                    <img src="./assets/delete.png" data-id=${note.id} class="toolbar-delete">
                 </div>
             </div>
         </div>
