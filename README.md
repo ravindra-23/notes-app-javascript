@@ -7,6 +7,6 @@ Set different background Colors to each note.
 
 ## See it live
 
-Open [https://happy-brown-f7012d.netlify.app/](https://happy-brown-f7012d.netlify.app/)
+Open [https://notes-app-javascript2308.netlify.app/](https://notes-app-javascript2308.netlify.app/)
 
 
